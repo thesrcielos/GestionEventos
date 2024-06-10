@@ -1,0 +1,11 @@
+services:
+  event-mongo:
+    image: mongo
+    volumes:
+      - ./mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: eventdb
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
