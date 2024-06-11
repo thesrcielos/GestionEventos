@@ -1,0 +1,10 @@
+services:
+  MySqlDataBase:
+    image: mysql:8.3.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE : userdb
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./db_data:/var/lib/mysql

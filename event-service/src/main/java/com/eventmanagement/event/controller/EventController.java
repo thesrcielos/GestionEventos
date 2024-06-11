@@ -41,7 +41,7 @@ public class EventController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String deleteEvent(String id){
+    public String deleteEvent(@PathVariable String id){
         return eventService.deleteEvent(id);
     }
 }
