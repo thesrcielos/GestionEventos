@@ -42,6 +42,10 @@ public class UserService {
         return modelMapper.map(user,UserResponse.class);
     }
 
+    public User findUser(Long id){
+        return userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found"));
+    }
+
     public List<UserResponse> getAllUsers(){
         return userRepository.findAll().stream()
                 .map(user->modelMapper.map(user,UserResponse.class)).toList();
