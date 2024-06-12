@@ -48,4 +48,7 @@ public class EventService {
         return eventRepository.findAll().stream().map(event->modelMapper.map(event,EventResponse.class)).toList();
     }
 
+    public boolean existEventById(String id){
+        return eventRepository.existsById(id);
+    }
 }

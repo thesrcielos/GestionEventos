@@ -43,4 +43,10 @@ public class UserController {
     public UserResponse updateUser(@RequestBody UserRequestUpdate userRequestUpdate){
         return userService.updateUser(userRequestUpdate);
     }
+
+    @GetMapping("/verify/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean existUserById(@PathVariable Long id){
+        return userService.existsUserById(id);
+    }
 }

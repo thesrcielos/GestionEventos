@@ -44,4 +44,10 @@ public class EventController {
     public String deleteEvent(@PathVariable String id){
         return eventService.deleteEvent(id);
     }
+
+    @GetMapping("/verify/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean existEventById(@PathVariable String id){
+        return eventService.existEventById(id);
+    }
 }
