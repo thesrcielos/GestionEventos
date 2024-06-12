@@ -12,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class EventHistoryService {
@@ -30,4 +32,23 @@ public class EventHistoryService {
         repository.save(eventHistory);
         return modelMapper.map(eventHistory,EventHistoryResponse.class);
     }
+
+    public List<EventHistoryResponse> getAllEventsByUserId(Long userId){
+        return repository.findByUserId(userId).stream()
+                .map(event->modelMapper.map(event,EventHistoryResponse.class))
+                .toList();
+    }
+
+    public void deleteHistoryResponse(Long id){
+        repository.deleteById(id);
+    }
+
+    public List<EventHistoryResponse> getAllEventHistory(){
+        return repository.findAll().stream()
+            .map(event->modelMapper.map(event,EventHistoryResponse.class))
+                .toList();
+    }
+
+
 }
+

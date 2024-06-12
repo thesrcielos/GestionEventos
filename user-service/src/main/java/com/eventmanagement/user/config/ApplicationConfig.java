@@ -1,6 +1,7 @@
 package com.eventmanagement.user.config;
 
 import com.eventmanagement.user.dto.EventHistoryResponse;
+import com.eventmanagement.user.dto.UserResponse;
 import com.eventmanagement.user.model.EventHistory;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -20,15 +21,6 @@ public class ApplicationConfig {
 
     @Bean
     public ModelMapper modelMapper(){
-        ModelMapper modelMapper = new ModelMapper();
-        Converter<EventHistory, EventHistoryResponse> eventHistoryConverter = context -> {
-            EventHistory source = context.getSource();
-            EventHistoryResponse destination = new EventHistoryResponse();
-            destination.setUserId(source.getUser().getId());
-            return destination;
-        };
-
-        modelMapper.addConverter(eventHistoryConverter);
-        return modelMapper;
+        return new ModelMapper();
     }
 }

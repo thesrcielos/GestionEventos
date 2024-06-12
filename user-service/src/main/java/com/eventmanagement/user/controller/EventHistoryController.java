@@ -18,7 +18,7 @@ public class EventHistoryController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<EventHistoryResponse> getAllEventHistoryByUserId(@PathVariable Long id){
-        return null;
+        return service.getAllEventsByUserId(id);
     }
 
     @PostMapping
@@ -26,4 +26,17 @@ public class EventHistoryController {
     public EventHistoryResponse createEventHistory(@RequestBody EventHistoryRequest request){
         return service.saveEventHistory(request);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteEventHistoryById(@PathVariable Long id){
+        service.deleteHistoryResponse(id);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventHistoryResponse> getAllEventHistories(){
+        return service.getAllEventHistory();
+    }
+
 }
