@@ -8,6 +8,6 @@ public interface UserClient {
     @GetExchange("/api/user/{id}")
     public UserDTO getUserById(@PathVariable Long id);
 
-    @GetExchange("/api/user/verify")
+    @GetExchange("/api/user/verify/{id}")
     public boolean existUserById(@PathVariable Long id);
 }

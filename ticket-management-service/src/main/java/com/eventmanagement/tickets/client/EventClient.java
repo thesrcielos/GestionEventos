@@ -10,5 +10,5 @@ public interface EventClient {
     public EventDTO getEventById(@PathVariable String id);
 
     @GetExchange("/api/event/verify/{id}")
-    public boolean existEventById(String id);
+    public boolean existEventById(@PathVariable String id);
 }

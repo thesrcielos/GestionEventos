@@ -6,6 +6,9 @@ import org.springframework.web.service.annotation.GetExchange;
 
 public interface EventClient {
 
-    @GetExchange("http://localhost:8080/api/event/{id}")
-    public EventDTO findEventById(@PathVariable String id);
+    @GetExchange("/api/event/{id}")
+    EventDTO findEventById(@PathVariable String id);
+
+    @GetExchange("/api/event/verify/{id}")
+    boolean existsEventById(@PathVariable String id);
 }

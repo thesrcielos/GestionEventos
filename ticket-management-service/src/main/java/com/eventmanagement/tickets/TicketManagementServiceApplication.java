@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EntranceManagementServiceApplication {
+public class TicketManagementServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EntranceManagementServiceApplication.class, args);
+		SpringApplication.run(TicketManagementServiceApplication.class, args);
 	}
 
 }

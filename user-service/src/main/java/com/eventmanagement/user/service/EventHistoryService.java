@@ -23,7 +23,7 @@ public class EventHistoryService {
     private final ModelMapper modelMapper;
 
     public EventHistoryResponse saveEventHistory(EventHistoryRequest request){
-        EventDTO eventDTO = eventClient.findEventById(request.getEventId());
+        verifyEventId(request.getEventId());
         User user = userService.findUser(request.getUserId());
         EventHistory eventHistory = EventHistory.builder()
                 .eventId(request.getEventId())
@@ -33,6 +33,10 @@ public class EventHistoryService {
         return modelMapper.map(eventHistory,EventHistoryResponse.class);
     }
 
+    private void verifyEventId(String eventId){
+       boolean existEvent = eventClient.existsEventById(eventId);
+       if(!existEvent) throw new RuntimeException("Event wit id " + eventId +" not found");
+    }
     public List<EventHistoryResponse> getAllEventsByUserId(Long userId){
         return repository.findByUserId(userId).stream()
                 .map(event->modelMapper.map(event,EventHistoryResponse.class))
