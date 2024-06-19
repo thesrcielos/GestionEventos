@@ -1,4 +1,4 @@
-package com.eventmanagement.apigateway.config;
+package com.eventmanagement.apigateway.security;
 
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
