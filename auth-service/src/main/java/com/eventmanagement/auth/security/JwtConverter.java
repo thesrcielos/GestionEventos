@@ -1,4 +1,4 @@
-package com.eventmanagement.apigateway.security;
+package com.eventmanagement.auth.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;

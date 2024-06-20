@@ -1,4 +1,4 @@
-package com.eventmanagement.apigateway.service;
+package com.eventmanagement.auth.service;
 
 import com.eventmanagement.apigateway.dto.UserDTO;
 import org.keycloak.representations.idm.UserRepresentation;

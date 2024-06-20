@@ -1,4 +1,4 @@
-package com.eventmanagement.apigateway.service;
+package com.eventmanagement.auth.service;
 
 import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
 import org.keycloak.admin.client.Keycloak;
