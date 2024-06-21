@@ -46,4 +46,5 @@ public class KeycloakUtilsService {
 
         return realmResource.users();
     }
+
 }

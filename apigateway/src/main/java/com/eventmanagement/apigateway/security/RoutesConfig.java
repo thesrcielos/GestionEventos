@@ -62,6 +62,15 @@ public class RoutesConfig {
     }
 
     @Bean
+    public RouterFunction<ServerResponse> authServiceRoute(){
+        return route("auth-service")
+                .route(RequestPredicates.path("/api/auth/**"), HandlerFunctions.http(serviceUrl("auth-service")))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("authServiceCircuitBreaker",
+                        URI.create("forward:/fallbackRoute")))
+                .build();
+    }
+
+    @Bean
     public RouterFunction<ServerResponse> fallbackRoute(){
         return route("/fallbackRoute")
                 .GET("/fallbackRoute", request -> ServerResponse.status(HttpStatus.SERVICE_UNAVAILABLE).body("service unavailable, please try again"))

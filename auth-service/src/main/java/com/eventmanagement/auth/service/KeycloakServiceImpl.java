@@ -1,6 +1,8 @@
 package com.eventmanagement.auth.service;
 
 import com.eventmanagement.apigateway.dto.UserDTO;
+import com.eventmanagement.auth.dto.TokenResponse;
+import com.eventmanagement.auth.dto.UserRequest;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,9 +12,18 @@ import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,6 +32,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KeycloakServiceImpl implements KeycloakService {
     private final KeycloakUtilsService keycloakUtilsService;
+    private final RestClient restClient;
+
+    @Value("${keycloak.server.url}")
+    private String KEYCLOAK_SERVER_URL;
+    @Value("${jwt.auth.converter.resource-id}")
+    private String CLIENT_ID;
+    @Value("${keycloak.client.secret}")
+    private String CLIENT_SECRET;
+    @Value("${keycloak.url.token}")
+    private String TOKEN_URL;
 
     @Override
     public List<UserRepresentation> findAllUsers() {
@@ -84,5 +105,28 @@ public class KeycloakServiceImpl implements KeycloakService {
     public void deleteUser(String userId) {
         UsersResource usersResource = keycloakUtilsService.getUserResource();
         usersResource.get(userId).remove();
+    }
+
+    @Override
+    public TokenResponse logIn(UserRequest userRequest) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
+
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("grant_type", "password");
+        body.add("client_id", CLIENT_ID);
+        body.add("client_secret", CLIENT_SECRET);
+        body.add("username", userRequest.getUsername());
+        body.add("password", userRequest.getPassword());
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
+        ResponseEntity<TokenResponse> response = restClient.post()
+                .uri(TOKEN_URL)
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .body(body)
+                .retrieve()
+                .toEntity(TokenResponse.class);
+
+        return response.getBody();
     }
 }
