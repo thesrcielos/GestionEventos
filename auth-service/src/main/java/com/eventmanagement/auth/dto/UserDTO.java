@@ -1,4 +1,4 @@
-package com.eventmanagement.apigateway.dto;
+package com.eventmanagement.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

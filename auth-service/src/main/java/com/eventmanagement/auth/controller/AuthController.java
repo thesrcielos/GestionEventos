@@ -1,6 +1,7 @@
 package com.eventmanagement.auth.controller;
 
 import com.eventmanagement.auth.dto.TokenResponse;
+import com.eventmanagement.auth.dto.UserDTO;
 import com.eventmanagement.auth.dto.UserRequest;
 import com.eventmanagement.auth.service.KeycloakService;
 import jakarta.annotation.Nonnull;
@@ -16,7 +17,7 @@ public class AuthController {
     private final KeycloakService keycloakService;
 
     @PostMapping("/create")
-    public String createUser(@Nonnull @RequestBody com.eventmanagement.apigateway.dto.UserDTO userDTO){
+    public String createUser(@Nonnull @RequestBody UserDTO userDTO){
         return keycloakService.createUser(userDTO);
     }
 

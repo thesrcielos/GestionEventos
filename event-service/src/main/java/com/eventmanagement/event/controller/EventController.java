@@ -5,6 +5,7 @@ import com.eventmanagement.event.dto.EventResponse;
 import com.eventmanagement.event.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class EventController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('Admin')")
     @ResponseStatus(HttpStatus.OK)
     public List<EventResponse> getAllEvents(){
         return eventService.getAllEvents();

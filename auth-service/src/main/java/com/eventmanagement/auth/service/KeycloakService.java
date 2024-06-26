@@ -1,7 +1,7 @@
 package com.eventmanagement.auth.service;
 
-import com.eventmanagement.apigateway.dto.UserDTO;
 import com.eventmanagement.auth.dto.TokenResponse;
+import com.eventmanagement.auth.dto.UserDTO;
 import com.eventmanagement.auth.dto.UserRequest;
 import org.keycloak.representations.idm.UserRepresentation;
 

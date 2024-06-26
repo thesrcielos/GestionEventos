@@ -1,5 +1,6 @@
 package com.eventmanagement.apigateway.security;
 
+import com.eventmanagement.apigateway.util.JwtUtil;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import lombok.RequiredArgsConstructor;
@@ -7,9 +8,11 @@ import org.springframework.cloud.gateway.server.mvc.filter.CircuitBreakerFilterF
 import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.function.RequestPredicates;
 import org.springframework.web.servlet.function.RouterFunction;
+import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 
 import java.net.URI;
@@ -20,6 +23,7 @@ import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouter
 @RequiredArgsConstructor
 public class RoutesConfig {
     private final EurekaClient discoveryClient;
+    private final JwtUtil jwtUtil;
 
     private String serviceUrl(String name) {
         InstanceInfo instance = discoveryClient.getNextServerFromEureka(name, false);
@@ -31,6 +35,9 @@ public class RoutesConfig {
                 .route(RequestPredicates.path("/api/event/**"), HandlerFunctions.http(serviceUrl("event-service")))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("eventServiceCircuitBreaker",
                         URI.create("forward:/fallbackRoute")))
+                .before(serverRequest -> ServerRequest.from(serverRequest)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer "+jwtUtil.getTokenInfo())
+                        .build())
                 .build();
     }
 
@@ -40,6 +47,9 @@ public class RoutesConfig {
                 .route(RequestPredicates.path("/api/user/**"), HandlerFunctions.http(serviceUrl("user-service")))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("userServiceCircuitBreaker",
                         URI.create("forward:/fallbackRoute")))
+                .before(serverRequest -> ServerRequest.from(serverRequest)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer "+jwtUtil.getTokenInfo())
+                        .build())
                 .build();
     }
 
@@ -49,6 +59,9 @@ public class RoutesConfig {
                 .route(RequestPredicates.path("/api/history/**"), HandlerFunctions.http(serviceUrl("user-service")))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("userHistoryServiceCircuitBreaker",
                         URI.create("forward:/fallbackRoute")))
+                .before(serverRequest -> ServerRequest.from(serverRequest)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer "+jwtUtil.getTokenInfo())
+                        .build())
                 .build();
     }
 
@@ -58,6 +71,9 @@ public class RoutesConfig {
                 .route(RequestPredicates.path("/api/ticket/**"), HandlerFunctions.http(serviceUrl("ticket-service")))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("ticketServiceCircuitBreaker",
                         URI.create("forward:/fallbackRoute")))
+                .before(serverRequest -> ServerRequest.from(serverRequest)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer "+jwtUtil.getTokenInfo())
+                        .build())
                 .build();
     }
 

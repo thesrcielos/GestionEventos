@@ -1,7 +1,7 @@
 package com.eventmanagement.auth.service;
 
-import com.eventmanagement.apigateway.dto.UserDTO;
 import com.eventmanagement.auth.dto.TokenResponse;
+import com.eventmanagement.auth.dto.UserDTO;
 import com.eventmanagement.auth.dto.UserRequest;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
@@ -119,7 +119,6 @@ public class KeycloakServiceImpl implements KeycloakService {
         body.add("username", userRequest.getUsername());
         body.add("password", userRequest.getPassword());
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
         ResponseEntity<TokenResponse> response = restClient.post()
                 .uri(TOKEN_URL)
                 .header("Content-Type", "application/x-www-form-urlencoded")
