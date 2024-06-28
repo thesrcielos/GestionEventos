@@ -20,7 +20,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authz) -> authz
-                        .requestMatchers(HttpMethod.POST,"/api/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)

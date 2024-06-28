@@ -109,9 +109,6 @@ public class KeycloakServiceImpl implements KeycloakService {
 
     @Override
     public TokenResponse logIn(UserRequest userRequest) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/x-www-form-urlencoded");
-
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "password");
         body.add("client_id", CLIENT_ID);

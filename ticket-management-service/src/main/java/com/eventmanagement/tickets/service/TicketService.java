@@ -6,12 +6,16 @@ import com.eventmanagement.tickets.dto.TicketRequest;
 import com.eventmanagement.tickets.dto.TicketResponse;
 import com.eventmanagement.tickets.model.Ticket;
 import com.eventmanagement.tickets.repositry.TicketRepository;
+import com.eventmanagement.tickets.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +24,7 @@ public class TicketService {
     private final EventClient eventClient;
     private final UserClient userClient;
     private final ModelMapper modelMapper;
+    private final JwtUtil jwtUtil;
 
     public TicketResponse saveTicket(TicketRequest ticketRequest){
         validateUserId(ticketRequest.getUserId());
@@ -43,12 +48,16 @@ public class TicketService {
                 .toList();
     }
     private void validateUserId(Long userId){
-        boolean userExists = userClient.existUserById(userId);
+        Map<String,String> authorizationHeader = new HashMap<>();
+        authorizationHeader.put(HttpHeaders.AUTHORIZATION, jwtUtil.getTokenInfo());
+        boolean userExists = userClient.existUserById(userId,authorizationHeader);
         if(!userExists) throw new RuntimeException("User with id "+ userId +" not found");
     }
 
     private void validateEventId(String eventId){
-        boolean eventExists = eventClient.existEventById(eventId);
+        Map<String,String> authorizationHeader = new HashMap<>();
+        authorizationHeader.put(HttpHeaders.AUTHORIZATION, jwtUtil.getTokenInfo());
+        boolean eventExists = eventClient.existEventById(eventId,authorizationHeader);
         if(!eventExists) throw new RuntimeException("event with id "+ eventId +" not found");
     }
 

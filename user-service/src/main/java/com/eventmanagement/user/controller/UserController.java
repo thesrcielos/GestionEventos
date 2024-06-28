@@ -28,7 +28,7 @@ public class UserController {
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse createUser(@RequestBody UserRequest userRequest){
+    public UserResponse createUser(@RequestBody UserRequest userRequest) throws Exception {
         return userService.saveUser(userRequest);
     }
 
